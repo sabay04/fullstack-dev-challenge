@@ -20,19 +20,28 @@ export const createInvestmentSavings = (req: Request, res: Response, next: NextF
     const years = 50 
     const interestRate = interest/100.0
     const months = 12 
-    //initial = inital amount
-    // monthly = monthly deposit
-    // interest = interest rate 
-    // years = how long to calculate for 
-
     let total = 0 
-    const compoundOnInitial =  initial * (Math.pow((1 + (interestRate)), (years)))
-    total =  compoundOnInitial + ((monthly * months ) * ((((Math.pow((1 + (interestRate)), (years))) - 1)/(interestRate))* (1 + interestRate)))
+    let totalByDecade = []
+
+
+    for( let years = 0; years <= 50 ; years +=10){
+      
+      const compoundOnInitial =  initial * (Math.pow((1 + (interestRate)), (years)))
+      total =  compoundOnInitial + ((monthly * months ) * ((((Math.pow((1 + (interestRate)), (years))) - 1)/(interestRate))* (1 + interestRate)))
+
+      totalByDecade.push(Math.round(total))
+      
+    }
 
     const moneyYouInvested = initial + ((monthly * months) * years) 
     const amountFromCompound = total - moneyYouInvested
   
-   res.json({investmentTotal: Math.round(total), totalYouInvested: Math.round(moneyYouInvested), totalFromCompound: Math.round(amountFromCompound) })
+   res.json({
+     investmentTotal: totalByDecade[totalByDecade.length - 1], 
+     totalYouInvested: Math.round(moneyYouInvested), 
+     totalFromCompound: Math.round(amountFromCompound), 
+     totalByDecade: totalByDecade
+    })
 }
 
 export default router;

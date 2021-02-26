@@ -8,13 +8,10 @@ import SavingsDisplay from '../components/SavingsDisplay'
 
 // Note: This is just for example purposes
 // should be replaced with real data from the server
-const tempData = {
-    xAxis: [0, 10, 20, 30, 40, 50],
-    yAxis: [100, 150, 180, 210, 240, 350],
-}
+const decades = [0, 10, 20, 30, 40, 50]
 
 const Savings = () => { 
-    const [calculatedResults, setCalculatedResults] = useState({investmentTotal: 0, totalYouInvested: 0, totalFromCompound: 0 })
+    const [calculatedResults, setCalculatedResults] = useState({investmentTotal: 0, totalYouInvested: 0, totalFromCompound: 0, totalByDecade: [] })
     const [initialSavings, setInitialSavings] = useState('0')
     const [monthlyDeposit, setMonthlyDeposit] = useState('0')
     const [interest, setInterest] = useState(2)
@@ -44,14 +41,14 @@ const Savings = () => {
 
 
     const handleInitialSavings = (e: React.ChangeEvent<HTMLInputElement>) => {
-           
-            setInitialSavings(e.target.value)
+            
+            setInitialSavings(e.target.value.replace(/\D/g,''))
             
     }
 
     const handleMonthlyDeposit = (e: React.ChangeEvent<HTMLInputElement>) => {
         
-        setMonthlyDeposit(e.target.value)
+        setMonthlyDeposit(e.target.value.replace(/\D/g,''))
     }
 
     const handleInterst = (e: number) => {
@@ -64,9 +61,12 @@ const Savings = () => {
         <Container pt={6}>
             <VStack spacing={4}>
                 <Heading color="blue500" textShadow="1px 1px #ff0000" as="h1">Interest Rate Calculator</Heading>
-                <SavingsDisplay totalInvestment={calculatedResults.investmentTotal}></SavingsDisplay>
-                <SavingsDisplay totalInvestment={calculatedResults.totalYouInvested}></SavingsDisplay>
-                <SavingsDisplay totalInvestment={calculatedResults.totalFromCompound}></SavingsDisplay>
+                <SavingsDisplay emoji="0x1F4B0" title="Total Investment" totalInvestment={calculatedResults.investmentTotal}></SavingsDisplay>
+                <Box display='flex' >
+                <SavingsDisplay emoji="0x1F525" title="What You Invested"  totalInvestment={calculatedResults.totalYouInvested}></SavingsDisplay>
+                <SavingsDisplay emoji="0x1F640" title="Earned from interest"  totalInvestment={calculatedResults.totalFromCompound}></SavingsDisplay>
+                </Box>
+               
                 <Box boxShadow="xl" borderRadius="lg" mb={4} p={8} backgroundColor="blue200" width='75%'>
                 <Input mb={4} label="Initial Savings amount" name="Initial Savings" placeholder="5000" onChange={handleInitialSavings} />
                 <Input mb={4} label="Monthly Deposit" name="Monthly Deposit" placeholder="100"  onChange={handleMonthlyDeposit}/>
@@ -82,8 +82,8 @@ const Savings = () => {
                 </Box>
                 <LineChart
                     title="Savings Over time"
-                    xAxisData={tempData.xAxis}
-                    yAxisData={tempData.yAxis}
+                    xAxisData={decades}
+                    yAxisData={calculatedResults.totalByDecade}
                     xLabel="Years"
                     yLabel="Amount"
                 />
