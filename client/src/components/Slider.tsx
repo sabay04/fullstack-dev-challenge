@@ -11,13 +11,14 @@ import {
 
 type Props = SliderProps & {
     label?: string
+    value: number 
 }
 
-const Slider = ({ label, ...rest }: Props) => (
+const Slider = ({ label, value, ...rest }: Props) => (
     <Box width="100%">
-        {!!label && <Text mb={2} fontWeight="semibold" color="blue700" align="left">{label}</Text>}
+        {!!label && <Text mb={2} fontWeight="semibold" color="blue700" align="left">{`${label} : ${value}`}</Text>}
         <ChakraSlider {...rest} colorScheme="primary">
-            <SliderTrack>
+            <SliderTrack bg="gray.300">
                 <SliderFilledTrack bg="primary" />
             </SliderTrack>
             <SliderThumb />

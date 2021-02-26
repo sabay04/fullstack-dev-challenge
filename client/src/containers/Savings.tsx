@@ -14,11 +14,10 @@ const tempData = {
 }
 
 const Savings = () => { 
-    const [totalInvestment, setTotalInvestment] = useState(0)
+    const [calculatedResults, setCalculatedResults] = useState({investmentTotal: 0, totalYouInvested: 0, totalFromCompound: 0 })
     const [initialSavings, setInitialSavings] = useState('0')
     const [monthlyDeposit, setMonthlyDeposit] = useState('0')
     const [interest, setInterest] = useState(2)
-    
 
     useEffect(() => {
         fetch("/investments/", {
@@ -36,7 +35,11 @@ const Savings = () => {
                 
                 return res.json()
             }
-        }).then(jsonRes => setTotalInvestment(jsonRes.investmentTotal))
+        }).then(jsonRes => {
+            setCalculatedResults(jsonRes) 
+
+        }
+        )
     }, [initialSavings, monthlyDeposit, interest])
 
 
@@ -55,15 +58,16 @@ const Savings = () => {
         
         setInterest(e)
     }
-// bring the interate into it
-// reflect change on axis
+
     return(
     <DefaultLayout>
         <Container pt={6}>
             <VStack spacing={4}>
-                <Heading color="blue700" as="h1">Interest Rate Calculator</Heading>
-                <SavingsDisplay totalInvestment={totalInvestment}></SavingsDisplay>
-                <Box borderRadius="lg" mb={4} p={8} backgroundColor="blue100">
+                <Heading color="blue500" textShadow="1px 1px #ff0000" as="h1">Interest Rate Calculator</Heading>
+                <SavingsDisplay totalInvestment={calculatedResults.investmentTotal}></SavingsDisplay>
+                <SavingsDisplay totalInvestment={calculatedResults.totalYouInvested}></SavingsDisplay>
+                <SavingsDisplay totalInvestment={calculatedResults.totalFromCompound}></SavingsDisplay>
+                <Box boxShadow="xl" borderRadius="lg" mb={4} p={8} backgroundColor="blue200" width='75%'>
                 <Input mb={4} label="Initial Savings amount" name="Initial Savings" placeholder="5000" onChange={handleInitialSavings} />
                 <Input mb={4} label="Monthly Deposit" name="Monthly Deposit" placeholder="100"  onChange={handleMonthlyDeposit}/>
                 <Slider

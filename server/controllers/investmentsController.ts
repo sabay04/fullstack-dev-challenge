@@ -28,8 +28,11 @@ export const createInvestmentSavings = (req: Request, res: Response, next: NextF
     let total = 0 
     const compoundOnInitial =  initial * (Math.pow((1 + (interestRate)), (years)))
     total =  compoundOnInitial + ((monthly * months ) * ((((Math.pow((1 + (interestRate)), (years))) - 1)/(interestRate))* (1 + interestRate)))
+
+    const moneyYouInvested = initial + ((monthly * months) * years) 
+    const amountFromCompound = total - moneyYouInvested
   
-   res.json({investmentTotal: Math.round(total)})
+   res.json({investmentTotal: Math.round(total), totalYouInvested: Math.round(moneyYouInvested), totalFromCompound: Math.round(amountFromCompound) })
 }
 
 export default router;
