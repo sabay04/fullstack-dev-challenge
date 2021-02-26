@@ -1,7 +1,6 @@
 import React from 'react'
 import { Box,Text, Heading } from '@chakra-ui/react'
 
-
 type SavingsDisplayProps = {
     totalInvestment: number
     emoji: string
@@ -14,7 +13,7 @@ const SavingsDisplay = ({totalInvestment, emoji, title}: SavingsDisplayProps ) =
         return '£' + total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
       }
 
-      const emojiHex = Number(emoji)
+    const emojiHex = Number(emoji)
       
     const total = currencyFormat(totalInvestment)
     return (
@@ -32,8 +31,8 @@ const SavingsDisplay = ({totalInvestment, emoji, title}: SavingsDisplayProps ) =
         mx={2}
         mb={1}
     >
-         <Heading as="h4" size="md" fontWeight="bold" fontSize="lg" color="pink.500">{`${title}:`}</Heading>    
-        <Text fontWeight="bold" fontSize="lg" color="pink.500">{`${total} ${String.fromCodePoint(emojiHex)}`}</Text>
+        <Heading as="h4" size="md" fontWeight="bold" fontSize="lg" color="pink.500">{`${title}:`}</Heading>    
+        <Text data-testid="value-display" fontWeight="bold" fontSize="lg" color="pink.500">{`${total} ${String.fromCodePoint(emojiHex)}`}</Text>
     </Box>
 )}
 
