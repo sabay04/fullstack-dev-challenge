@@ -1,19 +1,7 @@
 import express, { Request, Response , NextFunction} from 'express';
+import { parseRequest } from '../utils/parser'
 
 const router = express.Router();
-
-//move these helper functions
-const parseRequest = (req: any) => {
-    let { initialSavings, monthlyDeposit, interest} = req;
-
-    return { 
-      initial: parseNumber(initialSavings), 
-      monthly: parseNumber(monthlyDeposit),
-      interest: parseNumber(interest)
-    };
-  }
-
-const parseNumber = (n:any) => !isNaN(Number(n)) ? Number(n) : 0;
 
 export const createInvestmentSavings = (req: Request, res: Response, next: NextFunction ) => {
     const { initial, monthly, interest } = parseRequest(req.body)
