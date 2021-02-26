@@ -15,7 +15,7 @@ type Props = SliderProps & {
 
 const Slider = ({ label, ...rest }: Props) => (
     <Box width="100%">
-        {!!label && <Text align="left">{label}</Text>}
+        {!!label && <Text mb={2} fontWeight="semibold" color="blue700" align="left">{label}</Text>}
         <ChakraSlider {...rest} colorScheme="primary">
             <SliderTrack>
                 <SliderFilledTrack bg="primary" />
